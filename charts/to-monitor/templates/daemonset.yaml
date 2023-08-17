@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "to-monitor.fullname" . }}
+  labels:
+    {{- include "to-monitor.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "to-monitor.selectorLabels" . | nindent 6 }}
+  updateStrategy:
+    {{- toYaml .Values.daemonSet.updateStrategy | nindent 4 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "to-monitor.selectorLabels" . | nindent 8 }}
+      name: {{ include "to-monitor.fullname" . }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "to-monitor.serviceAccountName" . }}
+      hostPID: {{ .Values.daemonSet.hostPID }}
+      hostNetwork: {{ .Values.daemonSet.hostNetwork }}
+      dnsPolicy: {{ .Values.daemonSet.dnsPolicy }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: TO_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "to-monitor.fullname" . }}
+              key: to-config
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
+        volumeMounts:
+          - name: hostroot
+            mountPath: /node
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - hostPath:
+          path: /
+        name: hostroot
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
