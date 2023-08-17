@@ -2,5 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ include "to-monitor.fullname" . }}
+  labels:
+    {{- include "to-monitor.labels" . | nindent 4 }}
 rules:
 {{ toYaml .Values.clusterRole }}

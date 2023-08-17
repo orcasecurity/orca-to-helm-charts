@@ -9,7 +9,7 @@ spec:
     matchLabels:
       {{- include "to-monitor.selectorLabels" . | nindent 6 }}
   updateStrategy:
-    {{- toYaml .Values.daemonSet.updateStrategy | nindent 4 }}
+    {{- toYaml .Values.updateStrategy | nindent 4 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -25,9 +25,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "to-monitor.serviceAccountName" . }}
-      hostPID: {{ .Values.daemonSet.hostPID }}
-      hostNetwork: {{ .Values.daemonSet.hostNetwork }}
-      dnsPolicy: {{ .Values.daemonSet.dnsPolicy }}
+      hostPID: {{ .Values.hostPID }}
+      hostNetwork: {{ .Values.hostNetwork }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -46,7 +46,7 @@ spec:
           - name: hostroot
             mountPath: /node
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.resources | nindent 10 }}
       volumes:
       - hostPath:
           path: /

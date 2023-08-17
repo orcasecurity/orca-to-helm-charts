@@ -2,6 +2,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ include "to-monitor.fullname" . }}
+  labels:
+    {{- include "to-monitor.labels" . | nindent 4 }}
 roleRef:
   kind: ClusterRole
   name: {{ include "to-monitor.fullname" . }}
