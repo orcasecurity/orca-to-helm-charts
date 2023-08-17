@@ -41,4 +41,14 @@ entries:
     urls:
     - https://github.com/orcasecurity/orca-to-helm-charts/releases/download/to-monitor-0.1.1/to-monitor-0.1.1.tgz
     version: 0.1.1
-generated: "2023-08-17T11:57:38.13540888Z"
+  - apiVersion: v2
+    appVersion: 1.0.12
+    created: "2023-08-17T16:48:24.413012677Z"
+    description: TO Monitor Helm Chart for Kubernetes
+    digest: bd390510bdd864082b27d9e572ec012e5b6ca902ecc048d521d4b0c87284ae91
+    name: to-monitor
+    type: application
+    urls:
+    - https://github.com/orcasecurity/orca-to-helm-charts/releases/download/to-monitor-0.1.0/to-monitor-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-08-17T16:48:24.413038378Z"
