@@ -13,6 +13,11 @@ imagePullSecrets:
 nameOverride: ""
 fullnameOverride: ""
 
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 10%
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -20,7 +25,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "to-monitor-account"
+  name: ""
 
 podAnnotations: {}
 
@@ -36,17 +41,17 @@ securityContext:
   # runAsNonRoot: true
   # runAsUser: 1000
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  limits:
+    cpu: 3000m
+    memory: 1400Mi
+  requests:
+    cpu: 128m
+    memory: 512Mi
 
 nodeSelector: {}
 
@@ -58,17 +63,9 @@ tolerations:
 
 affinity: {}
 
-secret:
-  toConfig: eyJ0YXJnZXQiOiAidGhyZWF0b3B0aXgtbXMucHJvZHVjdGlvbi51cy1lYXN0LTEub3JjYXNlY3VyaXR5LmlvOjQ0MyIsICJ0aWQiOiAiMTFiMjFhMDgtYjM5Mi00ZTQxLWJlYzItMmE1MzY3YTMyYWYxIn0=
-
-daemonSet:
-  hostPID: true
-  hostNetwork: true
-  dnsPolicy: ClusterFirstWithHostNet
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 10%
+hostPID: true
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
 
 clusterRole:
   - apiGroups:
