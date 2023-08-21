@@ -7,6 +7,10 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  registry:
+    name: orcasecurity.jfrog.io
+    username: orca-threatoptix-ro
+    password: ""
 
 imagePullSecrets:
   - name: regcred
