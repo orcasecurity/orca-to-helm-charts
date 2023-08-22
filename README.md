@@ -12,7 +12,7 @@ helm repo add orca-to-helm-charts https://orcasecurity.github.io/orca-to-helm-ch
 helm install to-monitor orca-to-helm-charts/to-monitor \
     --namespace threatoptix \
     --create-namespace \
-    --set arhcitecture=amd64 \
+    --set architecture=amd64 \
     --set nodeSelector."kubernetes\\.io/arch"=amd64 \
     --set toConfig=<paste base64 encoded config string provided by Orca> \
     --set image.registry.password=<paste token provided by Orca>
@@ -22,7 +22,7 @@ helm install to-monitor orca-to-helm-charts/to-monitor \
 helm install to-monitor orca-to-helm-charts/to-monitor \
     --namespace threatoptix \
     --create-namespace \
-    --set arhcitecture=arm64 \
+    --set architecture=arm64 \
     --set nodeSelector."kubernetes\\.io/arch"=arm64 \
     --set toConfig=<paste base64 encoded config string provided by Orca> \
     --set image.registry.password=<paste token provided by Orca>
