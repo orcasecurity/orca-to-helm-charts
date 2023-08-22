@@ -12,8 +12,6 @@ image:
     username: orca-threatoptix-ro
     password: ""
 
-architecture: "amd64"
-
 imagePullSecrets:
   - name: regcred
 nameOverride: ""
