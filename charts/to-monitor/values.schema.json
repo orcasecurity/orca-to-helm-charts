@@ -42,6 +42,10 @@
         "registry"
       ]
     },
+    "architecture": {
+      "type": "string",
+      "pattern": "^(amd64|arm64)$"
+    },
     "imagePullSecrets": {
       "type": "array",
       "items": {
