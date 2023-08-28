@@ -7,7 +7,7 @@ helm repo add orca-to-helm-charts https://orcasecurity.github.io/orca-to-helm-ch
 
 2. Install TO monitor
 ```
-helm install to-monitor orca-to-helm-charts/to-monitor \
+helm upgrade --install to-monitor orca-to-helm-charts/to-monitor \
     --namespace threatoptix \
     --create-namespace \
     --set toConfig=<paste base64 encoded config string provided by Orca> \
