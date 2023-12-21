@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Helm Template
+      - name: Render helm chart
         shell: bash
         run: |
           helm template to-monitor charts/to-monitor

@@ -1,0 +1,40 @@
+name: Chart Version Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  chart-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Get old chart version
+        id: old_version
+        shell: bash
+        run: |
+          old_version=$(grep version\: charts/to-monitor/Chart.yaml | awk -F ' ' '{print $2}')
+          echo "old_version=$old_version" >> $GITHUB_OUTPUT
+
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+
+      - name: Get new chart version and compare
+        id: new_version
+        shell: bash
+        run: |
+          new_version=$(grep version\: charts/to-monitor/Chart.yaml | awk -F ' ' '{print $2}')
+          old_version=${{ steps.old_version.outputs.old_version }}
+          echo "new_version = $new_version"
+          echo "old_version = $old_version"
+          if [[ "$new_version" > "$old_version" ]]; then
+            echo "New version is OK"
+          else
+            echo "Please increase the Chart version"
+            exit 1
+          fi
