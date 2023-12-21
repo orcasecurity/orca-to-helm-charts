@@ -15,4 +15,4 @@ jobs:
       - name: Helm Template
         shell: bash
         run: |
-          helm template .
+          helm template to-monitor charts/to-monitor
