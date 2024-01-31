@@ -32,9 +32,29 @@ jobs:
           old_version=${{ steps.old_version.outputs.old_version }}
           echo "new_version = $new_version"
           echo "old_version = $old_version"
-          if [[ "$new_version" > "$old_version" ]]; then
-            echo "New version is OK"
-          else
-            echo "Please increase the Chart version"
+          
+          if [[ "$new_version" == "$old_version" ]]; then
+            echo "New and old Chart versions are equal. Please increase the Chart version"
             exit 1
           fi
+          
+          new_version=(${new_version//./ })
+          old_version=(${old_version//./ })
+          
+          for i in $(seq 0 2); do
+            if [[ "$i" -eq 0  ]]; then
+              version="Major"
+            elif [[ "$i" -eq 1 ]]; then
+              version="Minor"
+            else
+              version="Patch"
+            fi
+            if [[ "${new_version[$i]}" -ge "${old_version[$i]}" ]]; then
+              echo "$version version is OK"
+            else
+              echo "$version version is lower than previous one"
+              exit 1
+            fi
+          done
+          
+          exit 0
