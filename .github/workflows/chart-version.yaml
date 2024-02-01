@@ -42,17 +42,29 @@ jobs:
           old_version=(${old_version//./ })
           
           for i in $(seq 0 2); do
-            if [[ "$i" -eq 0  ]]; then
+            case "$i" in
+              0)
               version="Major"
-            elif [[ "$i" -eq 1 ]]; then
+              ;;
+          
+              1)
               version="Minor"
-            else
+              ;;
+          
+              *)
               version="Patch"
-            fi
-            if [[ "${new_version[$i]}" -ge "${old_version[$i]}" ]]; then
-              echo "$version version is OK"
+              ;;
+            esac
+          
+            if [[ "${new_version[$i]}" -gt "${old_version[$i]}" ]]; then
+              echo "$version version is greater than previous one"
+              echo "Version is OK"
+              break
+            elif [[ "${new_version[$i]}" -eq "${old_version[$i]}" ]]; then
+              echo "$version version is equal to previous one. Keep checking..."
             else
               echo "$version version is lower than previous one"
+              echo "Version is not OK. Please increase the Chart version"
               exit 1
             fi
           done
